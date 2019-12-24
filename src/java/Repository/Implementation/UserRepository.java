@@ -76,7 +76,7 @@ public class UserRepository implements Repository<User>{
         }catch(NoResultException e){
             return false;
         }        
-        return BCrypt.checkpw(rawpass, user.getHashPass()) ? true : false;        
+        return BCrypt.checkpw(rawpass, user.getHashPass());        
     }
     
     public List<User> search(String query){

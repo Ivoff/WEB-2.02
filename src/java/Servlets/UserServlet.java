@@ -40,7 +40,7 @@ public class UserServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
-        UserRepository repo = new UserRepository();
+        UserRepository repo = new UserRepository();        
         RequestDispatcher view = request.getRequestDispatcher("User.jsp");                        
         
         if(request.getParameter("flag") != null){
@@ -68,7 +68,7 @@ public class UserServlet extends HttpServlet {
                 User aux = (User) repo.read(user.getId());
                 user.setCreatedAt(aux.getCreatedAt());
                 user.setUpdatedAt(OffsetDateTime.now());
-            }
+            }            
             repo.save(user);
             request.setAttribute("success", "Successfully saved");            
         }else if(request.getParameter("edit") != null){
