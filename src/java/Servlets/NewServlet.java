@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author zilas
  */
-@WebServlet(name = "ForumServlet", urlPatterns = {"/forum"})
-public class ForumServlet extends HttpServlet {
+@WebServlet(name = "NewServlet", urlPatterns = {"/new"})
+public class NewServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,7 +31,7 @@ public class ForumServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher("forum.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("new.jsp");
         view.forward(request, response);
     }
 

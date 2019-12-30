@@ -44,6 +44,16 @@ public class UserRepository implements Repository<User>{
         User retrivedUser = em.find(User.class, id);                        
         return retrivedUser;
     }
+    
+    public User read(String email){
+        EntityManager em = emf. createEntityManager();
+        Query result = em.createNativeQuery("select * from users where email = '"+email+"'", User.class);        
+        try{            
+            return (User) result.getSingleResult();
+        }catch(NoResultException e){
+            return null;
+        } 
+    }
 
     @Override
     public void delete(User e) {
@@ -66,18 +76,13 @@ public class UserRepository implements Repository<User>{
         return result.getResultList();
     }
     
-    public boolean testUser(String email, String rawpass){
-        EntityManager em = emf.createEntityManager();
-        Query result = em.createNativeQuery("select * from users where email = '"+email+"'", User.class);
-        User user = null;
-        try{
-            user = (User) result.getSingleResult();
-            System.out.println("\n\n\n\n\n"+user.getEmail()+"\n\n\n\n\n");
-        }catch(NoResultException e){
-            return false;
-        }        
-        return BCrypt.checkpw(rawpass, user.getHashPass());        
-    }
+    public boolean testUser(String email, String rawpass){        
+        User retrievedUser = read(email);
+        if(retrievedUser != null){
+            return BCrypt.checkpw(rawpass, retrievedUser.getHashPass());
+        }
+        return false;
+    }        
     
     public List<User> search(String query){
         EntityManager em = emf.createEntityManager();

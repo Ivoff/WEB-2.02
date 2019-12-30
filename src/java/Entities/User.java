@@ -102,4 +102,9 @@ public class User{
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }        
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", name=" + name + ", email=" + email + ", hashPass=" + hashPass + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", birthday=" + birthday + ", forums=" + forums + '}';
+    }        
 }

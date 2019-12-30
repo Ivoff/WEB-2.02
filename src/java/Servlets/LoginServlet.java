@@ -5,33 +5,52 @@
  */
 package Servlets;
 
+import Entities.User;
+import Repository.Implementation.UserRepository;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author zilas
  */
-@WebServlet(name = "ForumServlet", urlPatterns = {"/forum"})
-public class ForumServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher("forum.jsp");
+@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
+public class LoginServlet extends HttpServlet {   
+    
+    @Inject
+    private UserRepository userRepo;   
+    
+    @Inject
+    private User user;
+    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {        
+                
+        RequestDispatcher view = request.getRequestDispatcher("login.jsp");
+        
+        if(request.getParameter("login_flag") != null)
+        {            
+            if(userRepo.testUser(request.getParameter("email_login"), request.getParameter("password_login")))
+            {   
+                user = userRepo.read(request.getParameter("email_login").trim());
+                
+                HttpSession session = request.getSession();
+                session.setAttribute("session_id", session.getId());
+                session.setAttribute("user", user);
+                
+                response.sendRedirect("profile");
+                return;
+            }            
+            request.setAttribute("status", false);                            
+        }
+        
         view.forward(request, response);
     }
 

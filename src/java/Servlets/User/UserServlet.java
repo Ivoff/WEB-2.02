@@ -1,4 +1,4 @@
-package Servlets;
+package Servlets.User;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -41,7 +41,7 @@ public class UserServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
         UserRepository repo = new UserRepository();        
-        RequestDispatcher view = request.getRequestDispatcher("User.jsp");                        
+        RequestDispatcher view = request.getRequestDispatcher("user.jsp");
         
         if(request.getParameter("flag") != null){
             if(request.getParameter("input_password").equals(request.getParameter("input_confirm"))){
@@ -79,7 +79,7 @@ public class UserServlet extends HttpServlet {
             request.setAttribute("dashboard", "not_null");
             repo.delete(user);
         }else if(request.getParameter("login") != null){            
-            if(repo.testUser(request.getParameter("user_email"), request.getParameter("user_pass"))){                
+            if(repo.testUser(request.getParameter("user_email"), request.getParameter("user_pass"))){
                 request.setAttribute("status", "OK");
                 request.setAttribute("all", repo.all());
                 request.setAttribute("test", "true");
