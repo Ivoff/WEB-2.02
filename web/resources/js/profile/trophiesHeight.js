@@ -4,9 +4,7 @@
  * and open the template in the editor.
  */
 
-$(document).ready(() => {     
-    let profileContainerHeight = $('#profile-container').height();
-    let headerHeight = $('#header').height();
-    let remainingHeight = $(window.innerHeight).height() - (profileContainerHeight + headerHeight);    
+$(document).ready(function() {                     
+    let remainingHeight = $('body').height() - ($('#profile-container').height() + $('#header').height());              
     $('#trophies').height(remainingHeight);
 });

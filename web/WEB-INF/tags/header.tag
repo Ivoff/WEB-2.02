@@ -7,7 +7,7 @@
 <%@tag description="put the tag description here" pageEncoding="UTF-8"%>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
-<link rel="stylesheet" type="text/css" href="resources/css/darky.css">
-<link rel="stylesheet" type="text/css" href="resources/css/base.css">
-<script src="resources/js/jquery-3.4.1.min.js"></script>
-<script src="resources/js/bootstrap.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/darky.css">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/base.css">
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
