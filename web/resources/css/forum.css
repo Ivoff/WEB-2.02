@@ -1,0 +1,111 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 19, 2020, 3:08:37 PM
+    Author     : zilas
+*/
+a {
+    color: inherit;
+}
+.custom-border {    
+    border: solid 1px #505050;
+}
+
+
+.edit-forum-icon:hover{
+    filter: brightness(35%);
+    cursor: pointer;
+}
+
+.post-image {
+    max-height:600px;
+    max-width:600px;
+    height:auto;
+    width:auto;
+}
+
+.vote:hover {
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.vote {
+    font-size: 2.2vh;
+}
+
+.height-limit {
+    height: 200px;
+}
+
+.text {
+    color: #999999;
+}
+
+.profile-container {
+    filter: brightness(0%);    
+}
+
+.bg-dark-gray {
+    background-color: #282828;    
+}
+
+.bg-black {
+    background-color: #000000;
+}
+
+.side-panel-forum-text {
+    height: 50px;
+}
+
+.height {
+    height: max-content;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width:8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #666666; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #333333; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #333333; 
+}
+
+.scrollabe-row {
+    height: 300px;
+}
+
+.form-group .form-control:focus {
+    border-color: #ffffff !important;
+}
+
+input, textarea{        
+    background-color: #000000 !important;
+    border: solid 1px #666666 !important;
+    color: #ffffff !important;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #666666 !important;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #666666 !important;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #666666 !important;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #666666 !important;
+}

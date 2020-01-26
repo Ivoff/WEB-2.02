@@ -5,34 +5,66 @@
  */
 package Servlets;
 
+import Entities.Post;
+import Entities.User;
+import Entities.Vote;
+import Repository.Implementation.PostRepository;
+import Repository.Implementation.UserRepository;
+import Repository.Implementation.VoteRepository;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import resources.Utils;
 
 /**
  *
  * @author zilas
  */
-@WebServlet(name = "NewServlet", urlPatterns = {"/new"})
-public class NewServlet extends HttpServlet {
+@WebServlet(name = "JsonServlet", urlPatterns = {"/json"})
+public class JsonServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    @Inject
+    UserRepository userRepo;
+   
+    @Inject
+    PostRepository postRepo;        
+    
+    @Inject
+    VoteRepository voteRepo;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher view = request.getRequestDispatcher("new.jsp");
-        view.forward(request, response);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        PrintWriter out = response.getWriter();
+               
+        if (request.getParameter("user") != null && request.getParameter("post") == null && request.getParameter("vote") == null) {
+            User user = userRepo.read(request.getParameter("user"));
+            String result;
+            if(user == null) 
+                result = new Gson().toJson(user);
+            else
+                result = new Gson().toJson(Utils.jsonSerializer(user));            
+            
+            out.print(result);
+            out.flush();
+            
+        }else if(request.getParameter("post") != null && request.getParameter("vote") != null && request.getParameter("user") != null){
+            Post post = postRepo.read(Integer.valueOf(request.getParameter("post")));
+            User user = userRepo.read(request.getParameter("user"));
+            
+            Vote vote = new Vote();
+            vote.setPost(post);
+            vote.setUser(user);
+            vote.setVote(Integer.valueOf(request.getParameter("vote")));
+            voteRepo.vote(vote);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

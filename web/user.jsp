@@ -163,8 +163,8 @@
                                     <%= user.getHashPass()%>
                                 </div>
                             </td>
-                            <td><%= offsetDateFormat.format(user.getCreatedAt())%></td>
-                            <td><%= offsetDateFormat.format(user.getUpdatedAt())%></td>
+                            <td><%= (DateTimeFormatter.ISO_LOCAL_DATE).format(user.getCreatedAt())%></td>
+                            <td><%= (DateTimeFormatter.ISO_LOCAL_DATE).format(user.getUpdatedAt())%></td>
                             <td>
                                 <a href="user?edit=<%= user.getId()%>">
                                     <button class="btn btn-info">

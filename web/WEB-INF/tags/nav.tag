@@ -18,8 +18,8 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <h4 class="dropdown-header text-dark">You're in ${currentPage}</h4>
                     <div class="dropdown-divider"></div>                                                                    
-                    <a class="dropdown-item" href="#">Hot</a>                                                                                                       
-                    <a class="dropdown-item" href="#">Top</a>
+                    <a class="dropdown-item" href="#">Posts</a>                                                                                                       
+                    <a class="dropdown-item" href="#">Forums</a>
                 </div>
             </li>            
         </ul>

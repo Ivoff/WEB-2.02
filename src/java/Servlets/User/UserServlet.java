@@ -10,8 +10,11 @@ import Entities.User;
 import Repository.Implementation.UserRepository;
 import Repository.Repository;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +54,7 @@ public class UserServlet extends HttpServlet {
                 request.setAttribute("all", repo.all());
                 view.forward(request, response);
             }
-            user.setName(request.getParameter("input_name"));
+            user.setName(request.getParameter("input_name").toLowerCase());
             user.setEmail(request.getParameter("input_email"));
             try{
                 user.setBirthday(new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("input_birthday")));
@@ -59,15 +62,13 @@ public class UserServlet extends HttpServlet {
                 ex.printStackTrace();
             }
             if(request.getParameter("flag").equals("insertion")){
-                user.setId(0);
-                user.setCreatedAt(OffsetDateTime.now());
-                user.setUpdatedAt(OffsetDateTime.now());
+                user.setId(0);                
             }
             else{
                 user.setId(Integer.parseInt(request.getParameter("user_id")));
                 User aux = (User) repo.read(user.getId());
                 user.setCreatedAt(aux.getCreatedAt());
-                user.setUpdatedAt(OffsetDateTime.now());
+                user.setUpdatedAt(LocalDateTime.now());
             }            
             repo.save(user);
             request.setAttribute("success", "Successfully saved");            

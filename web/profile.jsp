@@ -66,9 +66,7 @@
                                 </a>
                             </div>
                             <div class="col-12">
-                                <a class="btn btn-outline-secondary btn-block font-weight-bold text-monospace mt-1" href="">
-                                    NEW FORUM
-                                </a>
+                                <a class="btn btn-outline-secondary btn-block font-weight-bold text-monospace mt-1" href="${pageContext.request.contextPath}/forum/create">NEW FORUM</a>
                             </div>                
                         </div>
                     </div>                            
@@ -76,7 +74,7 @@
                         <h6 class="text-monospace font-weight-bold pt-3">Trophies</h6>
                         <div class="overflow-auto row row-col-2 scrollabe-row">
                             <div class="col-3">
-                                <img src="${pageContext.request.contextPath}/resources/images/generic-logo-ECC6ED04F3-seeklogo.com.png" height="40" width="40">
+                                <img src="${pageContext.request.contextPath}/resources/images/generic-logo-ECC6ED04F3-seeklogo.com.png" height="55" width="55">
                             </div>
                             <div class="col-9">
                                 <small class="text-monospace font-weight-light">
