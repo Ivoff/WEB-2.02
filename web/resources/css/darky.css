@@ -3655,7 +3655,8 @@ input[type="button"].btn-block {
 .dropdown-item:hover, .dropdown-item:focus {
   color: #fff;
   text-decoration: none;
-  background-color: #2A9FD6;
+  /*background-color: #000;*/
+  border: 1px solid #ffffff;
 }
 
 .dropdown-item.active, .dropdown-item:active {

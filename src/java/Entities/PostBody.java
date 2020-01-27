@@ -10,23 +10,25 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 @Entity
 @Table(name = "posts_body")
-@SequenceGenerator(name = "post_body_id_seq", sequenceName = "posts_body_id_seq", allocationSize = 1)
-public class PostBody {    
+@CascadeOnDelete
+//@SequenceGenerator(name = "post_body_id_seq", sequenceName = "posts_body_id_seq", allocationSize = 1)
+public class PostBody {
 
     @OneToOne(mappedBy = "body", targetEntity = Post.class, cascade = CascadeType.PERSIST)
-    @JsonBackReference
     private Post post;
-    
+
     @Id
-    @GeneratedValue(generator = "post_body_id_seq", strategy = GenerationType.SEQUENCE)
+//    @GeneratedValue(generator = "post_body_id_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
-    @Column(name = "type" , nullable = false)
-    private int type; 
-    
+
+    @Column(name = "type", nullable = false)
+    private int type;
+
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
@@ -61,6 +63,5 @@ public class PostBody {
     public void setContent(String content) {
         this.content = content;
     }
-    
-    
+
 }

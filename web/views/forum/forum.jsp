@@ -17,7 +17,7 @@
 
 <t:page currentPage="forums/index">
     <jsp:attribute name="header">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/forum.css">
+        <link rel="stylesheet" type="text/css" href="resources/css/forum.css">
     </jsp:attribute>
     <jsp:body>        
         <div class="container-fluid">
@@ -26,7 +26,7 @@
                 <div class="col-3">                    
                     <div id="" class="custom-border pb-3 pr-3 pl-3 mb-3">
                         <div class="bg-dark-gray row row-col-1 pt-4">
-                            <h5 class="font-weight-bold text-monospace pl-3">Recently created</h5>
+                            <h5 class="font-weight-bold text-monospace pl-3">Forums - Recently created</h5>
                         </div>                    
                         <div class="row row-col-2 pt-2 pb-2">
                             <div class="ml-2 mr-2 w-100">

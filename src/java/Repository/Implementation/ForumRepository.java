@@ -3,6 +3,7 @@ package Repository.Implementation;
 import Entities.Forum;
 import Entities.User;
 import Repository.Repository;
+import java.io.File;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -56,6 +57,9 @@ public class ForumRepository implements Repository<Forum> {
         if (!em.contains(e)) {
             e = em.find(Forum.class, e.getId());
         }
+        
+        File image = new File(System.getenv("PROJECT_PATH")+e.getImagePath().replace("/WEB-2.01/", "/WEB-2.01/web/"));
+        image.delete();
         em.remove(e);
 
         em.getTransaction().commit();

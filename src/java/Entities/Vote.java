@@ -11,19 +11,20 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "votes")
-@SequenceGenerator(name = "vote_id_seq", sequenceName = "votes_id_seq", allocationSize = 1)
+//@SequenceGenerator(name = "vote_id_seq", sequenceName = "votes_id_seq", allocationSize = 1)
 public class Vote {
-    
+
     @Id
-    @GeneratedValue(generator = "vote_id_seq", strategy = GenerationType.SEQUENCE)
+//    @GeneratedValue(generator = "vote_id_seq", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     @ManyToOne
     private Post post;
-        
+
     @ManyToOne
     private User user;
-    
+
     @Column(name = "vote")
     private int vote;
 
@@ -58,6 +59,5 @@ public class Vote {
     public void setVote(int vote) {
         this.vote = vote;
     }
-    
-    
+
 }

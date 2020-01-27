@@ -65,17 +65,28 @@ public class PostServlet extends HttpServlet {
                     if (request.getParameter("action").equals("edit")) {
                         request.setAttribute("post", postRepo.read(Integer.valueOf(request.getParameter("id"))));
                     }
+                }
+                if (request.getParameter("form_flag") != null) {                                        
+                    post.setId(Integer.valueOf(request.getParameter("post_id")));
+                    post.setTitle(request.getParameter("post_title"));
+                    post.setCreatedBy(userRepo.read(request.getParameter("post_creator")));
+                    post.setForum(forumRepo.read(request.getParameter("post_forum")));
 
-                    if (request.getParameter("form_flag") != null) {
-                        post.setId(Integer.valueOf(request.getParameter("post_id")));
-                        post.setTitle(request.getParameter("post_title"));
-                        post.setCreatedBy(userRepo.read(request.getParameter("post_creator")));
-                        post.setForum(forumRepo.read(request.getParameter("post_forum")));
+                    postBody.setId(Integer.valueOf(request.getParameter("post_body_id")));
+                    postBody.setType(Integer.valueOf(request.getParameter("post_type")));
 
-                        postBody.setId(Integer.valueOf(request.getParameter("post_body_id")));
-                        postBody.setType(Integer.valueOf(request.getParameter("post_type")));
+                    if (postBody.getType() == 1) {                        
+                        if (request.getPart("post_image").getSubmittedFileName().equals("")) {
+                            if (Integer.valueOf(request.getParameter("post_id")) != 0) {
+                                postBody.setContent(
+                                        postRepo.read(Integer.valueOf(request.getParameter("post_id")))
+                                        .getBody()
+                                        .getContent());
+                            }else{
+                                postBody.setContent("");
+                            }
 
-                        if (postBody.getType() == 1) {
+                        } else {
                             String uploadPath = getServletContext().getRealPath("").replace(File.separator + "build" + File.separator + "web", File.separator + "web" + File.separator + "resources" + File.separator + "storage" + File.separator + "posts_images");
                             String fileName = (BCrypt.hashpw(request.getPart("post_image").getSubmittedFileName(), BCrypt.gensalt()) + Utils.getRequestFileExtension(request.getPart("post_image").getSubmittedFileName())).replace("/", "|");
                             File uploadDir = new File(uploadPath);
@@ -89,26 +100,24 @@ public class PostServlet extends HttpServlet {
                             Part fileIcon = request.getPart("post_image");
                             fileIcon.write(uploadPath + File.separator + fileName);
                             postBody.setContent("/WEB-2.01/resources/storage/posts_images" + File.separator + fileName);
-                            postBody.setType(1);
-
-                        } else {
-                            postBody.setContent(request.getParameter("post_content"));
-                            postBody.setType(0);
                         }
-                        postBody.setPost(post);
-                        postBodyRepo.save(postBody);
-
-                        post.setBody(postBody);
-                        postRepo.save(post);
+                    } else {
+                        postBody.setContent(request.getParameter("post_content"));
+                        postBody.setType(0);
                     }
+                    postBody.setPost(post);
+                    postBodyRepo.save(postBody);
+
+                    post.setBody(postBody);
+                    postRepo.save(post);                    
                 }
             }
         } else {
-            
-            if(request.getParameter("action") != null && request.getParameter("action").equals("delete")){
+
+            if (request.getParameter("action") != null && request.getParameter("action").equals("delete")) {
                 postRepo.delete(postRepo.read(Integer.valueOf(request.getParameter("id"))));
             }
-            
+
             if (request.getParameter("order") != null) {
                 if (request.getParameter("order").equals("newer")) {
                     request.setAttribute("posts", postRepo.all("desc", 0));

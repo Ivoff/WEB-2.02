@@ -22,7 +22,7 @@
     </head>
     <body>
         <div id="header">
-            <t:nav  currentPage="${currentPage}"></t:nav>            
+            <t:nav  currentPage="${currentPage}"></t:nav>
             <jsp:invoke fragment="header"/>        
         </div>
         

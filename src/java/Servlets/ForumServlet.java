@@ -59,35 +59,45 @@ public class ForumServlet extends HttpServlet {
                 if (request.getParameter("action") != null) {
                     if (request.getParameter("action").equals("edit")) {
                         request.setAttribute("edit", true);
-                        forum = (Forum) forumRepo.read(Integer.valueOf(request.getParameter("id")));                                                                                                
+                        forum = (Forum) forumRepo.read(Integer.valueOf(request.getParameter("id")));
                         request.setAttribute("current_forum", forum);
                     }
                 }
 
                 if (request.getParameter("form_flag") != null) {                    
-                    String uploadPath = getServletContext().getRealPath("").replace(File.separator + "build" + File.separator + "web", File.separator + "web" + File.separator + "resources" + File.separator + "storage" + File.separator + "forum_icons");
-                    String fileName = (BCrypt.hashpw(request.getPart("forum_icon").getSubmittedFileName(), BCrypt.gensalt()) + getRequestFileExtension(request.getPart("forum_icon").getSubmittedFileName())).replace("/", "|");
-                    File uploadDir = new File(uploadPath);
+                    
+                    if (Integer.valueOf(request.getParameter("forum_id")) != 0) {
+                        if (request.getPart("forum_icon").getSubmittedFileName().equals("")) {
+                            forum.setImagePath(forumRepo.read(Integer.valueOf(request.getParameter("forum_id")))
+                                    .getImagePath());
+                        }
 
-                    if (!uploadDir.exists()) {
-                        uploadDir.mkdirs();
-                    }
-
-                    File file = new File(uploadPath + File.separator + fileName);
-                    file.createNewFile();
-                    Part fileIcon = request.getPart("forum_icon");
-                    fileIcon.write(uploadPath + File.separator + fileName);                                        
-                    forum.setId(Integer.valueOf(request.getParameter("forum_id")));
-                    forum.setImagePath("/WEB-2.01/resources/storage/forum_icons" + File.separator + fileName);
-                    forum.setName(request.getParameter("forum_name").trim());
-                    forum.setDescription(request.getParameter("forum_description"));
-
-                    if (userRepo.read(request.getParameter("forum_owner")) != null) {
-                        forum.setCreatedBy(userRepo.read(request.getParameter("forum_owner")));
-                        forumRepo.save(forum);
-                        request.setAttribute("status", true);
                     } else {
-                        request.setAttribute("status", false);
+
+                        String uploadPath = getServletContext().getRealPath("").replace(File.separator + "build" + File.separator + "web", File.separator + "web" + File.separator + "resources" + File.separator + "storage" + File.separator + "forum_icons");
+                        String fileName = (BCrypt.hashpw(request.getPart("forum_icon").getSubmittedFileName(), BCrypt.gensalt()) + getRequestFileExtension(request.getPart("forum_icon").getSubmittedFileName())).replace("/", "|");
+                        File uploadDir = new File(uploadPath);
+
+                        if (!uploadDir.exists()) {
+                            uploadDir.mkdirs();
+                        }
+
+                        File file = new File(uploadPath + File.separator + fileName);
+                        file.createNewFile();
+                        Part fileIcon = request.getPart("forum_icon");
+                        fileIcon.write(uploadPath + File.separator + fileName);
+                        forum.setId(Integer.valueOf(request.getParameter("forum_id")));
+                        forum.setImagePath("/WEB-2.01/resources/storage/forum_icons" + File.separator + fileName);
+                        forum.setName(request.getParameter("forum_name").trim());
+                        forum.setDescription(request.getParameter("forum_description"));
+
+                        if (userRepo.read(request.getParameter("forum_owner")) != null) {
+                            forum.setCreatedBy(userRepo.read(request.getParameter("forum_owner")));
+                            forumRepo.save(forum);
+                            request.setAttribute("status", true);
+                        } else {
+                            request.setAttribute("status", false);
+                        }
                     }
                 }
 

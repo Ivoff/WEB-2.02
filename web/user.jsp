@@ -10,6 +10,7 @@
 <%@page import="java.util.List"%>
 <%@page import="Entities.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="t" tagdir="/WEB-INF/tags/"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,6 +20,7 @@
         <title>User Form</title>
     </head>
     <body>        
+        <t:nav  currentPage="user"></t:nav>
         <div class="container-fluid shadow-sm bg-light">
             <div class="row">
                 <div class="col">
@@ -39,7 +41,7 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-secondary" id="create">Add</button>
                 <button type="button" class="btn btn-primary" id="list">DashBoard</button>
-                <button type="button" class="btn btn-primary" id="test">Login</button>                
+<!--                <button type="button" class="btn btn-primary" id="test">Login</button>                -->
             </div>                        
                         
             <%
@@ -149,8 +151,7 @@
                             list = (List<User>) request.getAttribute("all");
                         %>
                         <%
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                            DateTimeFormatter offsetDateFormat = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");                            
                             for (User user : list) {
                         %>
                         <tr>

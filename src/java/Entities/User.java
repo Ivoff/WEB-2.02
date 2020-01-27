@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,47 +18,49 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
 import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 @Table(name = "users")
-@SequenceGenerator(name = "user_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
-public class User{    
-    
+@CascadeOnDelete
+@Cacheable(false)
+//@SequenceGenerator(name = "user_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
+public class User {
+
     @Id
-    @GeneratedValue(generator = "user_id_seq", strategy = GenerationType.SEQUENCE)
+//    @GeneratedValue(generator = "user_id_seq", strategy = GenerationType.SEQUENCE)    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-        
+
     @Column(name = "name", unique = true, nullable = false)
     private String name;
-    
+
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-    
+
     @Column(name = "hash_pass", nullable = false)
-    private String hashPass;        
-            
+    private String hashPass;
+
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default now()")
     private LocalDateTime createdAt;
-        
-    @Column(name = "updated_at", insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default now()")    
+
+    @Column(name = "updated_at", insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default now()")
     private LocalDateTime updatedAt;
-    
+
     @Temporal(TemporalType.DATE)
     @Column(name = "birthday", nullable = false)
-    private Date birthday;  
-    
-    @OneToMany(mappedBy = "createdBy", targetEntity = Forum.class, cascade = CascadeType.ALL)    
-    @JsonBackReference
+    private Date birthday;
+
+    @OneToMany(mappedBy = "createdBy", targetEntity = Forum.class, cascade = CascadeType.ALL)
     private List<Forum> forums;
-    
-    @OneToMany(mappedBy = "createdBy", targetEntity = Post.class, cascade = CascadeType.ALL)    
-    @JsonBackReference
+
+    @OneToMany(mappedBy = "createdBy", targetEntity = Post.class, cascade = CascadeType.ALL)
     private List<Post> posts;
-    
+
     @OneToMany(mappedBy = "user")
     private List<Vote> votes;
-    
+
     @Transient
     private HashMap<String, Integer> relations;
 
@@ -71,8 +74,8 @@ public class User{
 
     public void setVotes(List<Vote> votes) {
         this.votes = votes;
-    }    
-    
+    }
+
     public void setRelations(HashMap<String, Integer> relations) {
         this.relations = relations;
     }
@@ -91,13 +94,13 @@ public class User{
 
     public void setPosts(List<Post> posts) {
         this.posts = posts;
-    }      
-    
-    public void addForum(Forum forum){
+    }
+
+    public void addForum(Forum forum) {
         this.forums.add(forum);
         forum.setCreatedBy(this);
     }
-    
+
     public int getId() {
         return id;
     }
@@ -144,7 +147,7 @@ public class User{
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }        
+    }
 
     public Date getBirthday() {
         return birthday;
@@ -152,10 +155,10 @@ public class User{
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }        
+    }
 
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", name=" + name + ", email=" + email + ", hashPass=" + hashPass + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", birthday=" + birthday + ", forums=" + forums + '}';
-    }        
+    }
 }

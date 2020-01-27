@@ -15,9 +15,9 @@
 
 <!DOCTYPE html>
 
-<t:page currentPage="forums/index">
+<t:page currentPage="post/index">
     <jsp:attribute name="header">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/forum.css">
+        <link rel="stylesheet" type="text/css" href="resources/css/forum.css">
     </jsp:attribute>
     <jsp:attribute name="script">
         <script>
@@ -32,6 +32,7 @@
                 let user = $('#user_input').val();
                 let post = $('#post_id').val();
                 let vote = $('#vote').val();
+                console.log('http://localhost:8080/WEB-2.01/json?post='+post+'&vote='+vote+'&user='+user);
                 $.ajax({
                     type: 'GET',
                     url: 'http://localhost:8080/WEB-2.01/json?post='+post+'&vote='+vote+'&user='+user
@@ -155,7 +156,7 @@
                                         <div class="profile-container" id="profile-container">
                                             <div class="bg-dark-gray row row-col-1 pt-4">
                                                 <div class="col-12">
-                                                    <img class="img-thumbnail" src="${pageContext.request.contextPath}/resources/images/avatar_default_01_545452.png" alt="" height="80" width="80">
+                                                    <img class="img-thumbnail" src="resources/images/avatar_default_01_545452.png" alt="" height="80" width="80">
                                                 </div>                        
                                                 <h7 class="col mt-1 font-weight-bold text-monospace text-success" id="user_name"></h7>
                                             </div>                    
@@ -170,7 +171,7 @@
                                                     todo                                
                                                 </div>                            
                                                 <div class="col-6 mb-4">
-                                                    <img class="" src="${pageContext.request.contextPath}/resources/images/noun_Birthday_2294371.png" height="15" width="15">
+                                                    <img class="" src="resources/images/noun_Birthday_2294371.png" height="15" width="15">
                                                     <small id="user_birthday"></small>
                                                 </div>
                                                 <div class="col-6">
@@ -229,7 +230,7 @@
                                     </div>
                                     <div class="col-12 d-flex align-items-center">                                                                                
                                         <span data-toggle="modal" data-target="#exampleModalCenter" onclick="setPostId(${post.id}, 1)" class="vote" id="upvote">▲ </span>
-                                        <span class="vote" id="downvote" data-toggle="modal" data-target="#exampleModalCenter" onclick="setPostId(${post.id}, -1)">▼ </span>                                                   
+                                        <span class="vote" id="downvote" data-toggle="modal" data-target="#exampleModalCenter" onclick="setPostId(${post.id}, '-1')">▼ </span>                                                   
                                         <span class="vote mx-3"> | </span>                     
                                         <span class="pt-1" id="${post.id}">${post.votes}</span>
                                         <div class="col-1"></div>                                        

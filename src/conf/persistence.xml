@@ -5,6 +5,7 @@
     <class>Entities.Post</class>
     <class>Entities.PostBody</class>
     <class>Entities.User</class>
+    <class>Entities.Vote</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/web2"/>

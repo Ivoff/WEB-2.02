@@ -9,14 +9,14 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 
 <!DOCTYPE html>
-<t:page currentPage="none">
+<t:page currentPage="post/create">
     <jsp:attribute name="header">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/forum.css">
+        <link rel="stylesheet" type="text/css" href="resources/css/forum.css">
     </jsp:attribute>
     <jsp:attribute name="script">
-        <script src="${pageContext.request.contextPath}/resources/js/profile/trophiesHeight.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/profile/displayFileName.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/profile/autoresizeTextArea.js"></script>
+        <script src="resources/js/profile/trophiesHeight.js"></script>
+        <script src="resources/js/profile/displayFileName.js"></script>
+        <script src="resources/js/profile/autoresizeTextArea.js"></script>
         <script>
             $(document).ready(() => {
                 $('#the-form input[type=radio]').on('change', () => {
@@ -34,13 +34,44 @@
         <script>
             $(document).ready(() => {
                 let selected = $('input[name=post_type]:checked').val();
-                if (selected == 1) {                    
+                if (selected == 1) {
                     $('#post_text_form').addClass('d-none');
                     $('#post_image_form').removeClass('d-none');
-                } else {                    
+                } else {
                     $('#post_text_form').removeClass('d-none');
                     $('#post_image_form').addClass('d-none');
                 }
+            });
+        </script>
+        <script>
+            $(document).ready(() => {
+                let last_state;
+                $('#post_creator').blur(() => {
+                    let input_user = $('#post_creator').val();
+                    if (input_user !== '' && last_state !== input_user) {
+                        last_state = input_user;
+                        $.ajax({
+                            type: 'GET',
+                            url: 'http://localhost:8080/WEB-2.01/json?user=' + input_user,
+                            success: (response) => {
+                                console.log(response);
+                                if (response !== null) {
+                                    if ($('#profile-container').hasClass('profile-container')) {
+                                        $('#profile-container').removeClass('profile-container');
+                                    }
+                                    $('#user_name').html('u/' + response.name);
+                                    $('#user_birthday').html(response.birthday.replace('12:00:00 AM', ''));
+                                    $('#user_forums').html(response.relations.forums);
+                                    $('#user_posts').html(response.relations.posts);
+                                }else{
+                                    if (!$('#profile-container').hasClass('profile-container')) {
+                                        $('#profile-container').addClass('profile-container');
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
             });
         </script>
     </jsp:attribute>
@@ -48,46 +79,46 @@
         <div class="container-fluid">
             <div class="row mt-3" id="teste">
                 <div class="col-2">
-                    <div id="profile-container" class="custom-border pb-3 pr-3 pl-3">
+                    <div id="profile-container" class="custom-border pb-3 pr-3 pl-3 profile-container">
                         <div class="bg-dark-gray row row-col-1 pt-4">
                             <div class="col-12">
-                                <img class="img-thumbnail" src="${pageContext.request.contextPath}/resources/images/avatar_default_01_545452.png" alt="" height="80" width="80">
+                                <img class="img-thumbnail" src="resources/images/avatar_default_01_545452.png" alt="" height="80" width="80">
                             </div>                        
-                            <h7 class="col mt-1 font-weight-bold text-monospace text-success">u/${user.name}</h7>
+                            <h7 class="col mt-1 font-weight-bold text-monospace text-success" id="user_name"></h7>
                         </div>                    
                         <div class="row row-col-2 pt-2 pb-2">
-                            <div class="col-6">
-                                <h6 class="font-weight-bold text-monospace">Likes Total</h6>
+                                <div class="col-6">
+                                    <h6 class="font-weight-bold text-monospace">Likes Total</h6>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="font-weight-bold text-monospace"> Birthday</h6>                            
+                                </div>
+                                <div class="col-6">
+                                    todo                                
+                                </div>                            
+                                <div class="col-6 mb-4">
+                                    <img class="" src="resources/images/noun_Birthday_2294371.png" height="15" width="15">
+                                    <small id="user_birthday"></small>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="font-weight-bold text-monospace">Posts</h6>
+                                </div>
+                                <div class="col-6">
+                                    <h6 class="font-weight-bold text-monospace">Forums</h6>                            
+                                </div>
+                                <div class="col-6" id="user_posts">
+                                    todo
+                                </div>
+                                <div class="col-6 mb-4" id="user_forums">
+                                    todo
+                                </div>
+                                <div class="col-12">
+                                    <h6 class="font-weight-bold text-monospace">Account Time</h6>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    todo
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <h6 class="font-weight-bold text-monospace"> Birthday</h6>                            
-                            </div>
-                            <div class="col-6">
-                                todo                                
-                            </div>                            
-                            <div class="col-6 mb-4">
-                                <img class="" src="${pageContext.request.contextPath}/resources/images/noun_Birthday_2294371.png" height="15" width="15">
-                                <small><fmt:formatDate pattern="dd-MM-yyyy" value="${user.birthday}"/></small>
-                            </div>
-                            <div class="col-6">
-                                <h6 class="font-weight-bold text-monospace">Posts</h6>
-                            </div>
-                            <div class="col-6">
-                                <h6 class="font-weight-bold text-monospace">Forums</h6>                            
-                            </div>
-                            <div class="col-6">
-                                todo
-                            </div>
-                            <div class="col-6 mb-4">
-                                todo
-                            </div>
-                            <div class="col-12">
-                                <h6 class="font-weight-bold text-monospace">Account Time</h6>
-                            </div>
-                            <div class="col-12 mb-2">
-                                todo
-                            </div>
-                        </div>
                     </div>                            
                     <div id="trophies" class="custom-border pb-3 pr-3 pl-3 mt-4">
                         <h6 class="text-monospace font-weight-bold pt-3">Rules</h6>
@@ -108,10 +139,10 @@
                         <form action="post?mode=create" method="POST" enctype="multipart/form-data" class="form-row justify-content-center mt-5" id="the-form">
 
                             <input type="hidden" name="form_flag" value="not_null">       
-                            
-                            <input type="hidden" name="post_id" value="${post != null ? post.id : 0}">
-                            <input type="hidden" name="post_body_id" value="${post != null ? post.body.id : 0}">
 
+                            <input type="hidden" name="post_id" value="${post != null ? post.id : 0}">
+                            <input type="hidden" name="post_body_id" value="${post != null ? post.body.id : 0}">                            
+                            
                             <div class="col-8 btn-group btn-group-toggle btn-block" data-toggle="buttons">
                                 <label class="btn btn-outline-secondary text-monospace ${post == null ? "active" : post.body.type == 0 ? "active" : ""} rounded-0">
                                     <input type="radio" name="post_type" id="post_text_button" value="0" autocomplete="off" ${post.body.type == 0 ? "checked" : "" }> Post
@@ -124,7 +155,7 @@
                             <div class="col-8 mt-3" id="post_user">
                                 <div class="form-group">
                                     <h5 class="form-text text-monospace">User</h5>
-                                    <input class="form-control rounded-0" type="text" name="post_creator" value="${post != null ? post.forum.createdBy.name : ""}">
+                                    <input class="form-control rounded-0" type="text" id="post_creator" name="post_creator" value="${post != null ? post.forum.createdBy.name : ""}">
                                 </div>
                             </div>
 
@@ -151,13 +182,13 @@
                             </div>                              
 
                             <div class="d-none col-8 mt-3" id="post_image_form">                                
-                                <div class="form-group">
+                                <div class="form-group">                                    
                                     <h5 class="form-text text-monospace">Upload an image</h5>
                                     <div class="custom-file">
                                         <input type="file" accept="image/png, image/jpeg, image/jpg" name="post_image"
                                                class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                                         <label class="custom-file-label bg-black custom-border text-monospace rounded-0" for="inputGroupFile01">Choose a file</label>
-                                    </div>
+                                    </div>                                    
                                 </div>
                             </div>
                             <div class="col-12 text-center mt-3">

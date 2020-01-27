@@ -10,14 +10,14 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 
 <!DOCTYPE html>
-<t:page currentPage="none">
+<t:page currentPage="forum/create">
     <jsp:attribute name="header">
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/forum.css">
+        <link rel="stylesheet" type="text/css" href="resources/css/forum.css">
     </jsp:attribute>
     <jsp:attribute name="script">
-        <script src="${pageContext.request.contextPath}/resources/js/profile/trophiesHeight.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/profile/displayFileName.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/js/profile/autoresizeTextArea.js"></script>
+        <script src="resources/js/profile/trophiesHeight.js"></script>
+        <script src="resources/js/profile/displayFileName.js"></script>
+        <script src="resources/js/profile/autoresizeTextArea.js"></script>
         <script>
             $(document).ready(() => {
                 $('#current_forum_icon').mouseover(() => {
@@ -62,7 +62,7 @@
                     }
                 });
             });
-        </script>        
+        </script>
     </jsp:attribute>
     <jsp:body>        
         <div class="container-fluid">
@@ -72,7 +72,7 @@
                         <div class="profile-container" id="profile-container">
                             <div class="bg-dark-gray row row-col-1 pt-4">
                                 <div class="col-12">
-                                    <img class="img-thumbnail" src="${pageContext.request.contextPath}/resources/images/avatar_default_01_545452.png" alt="" height="80" width="80">
+                                    <img class="img-thumbnail" src="resources/images/avatar_default_01_545452.png" alt="" height="80" width="80">
                                 </div>                        
                                 <h7 class="col mt-1 font-weight-bold text-monospace text-success" id="user_name"></h7>
                             </div>                    
@@ -87,7 +87,7 @@
                                     todo                                
                                 </div>                            
                                 <div class="col-6 mb-4">
-                                    <img class="" src="${pageContext.request.contextPath}/resources/images/noun_Birthday_2294371.png" height="15" width="15">
+                                    <img class="" src="resources/images/noun_Birthday_2294371.png" height="15" width="15">
                                     <small id="user_birthday"></small>
                                 </div>
                                 <div class="col-6">
@@ -115,6 +115,7 @@
                         <h6 class="text-monospace font-weight-bold pt-3">Rules</h6>
                         <div class="overflow-auto scrollabe-row pr-2">
                             <ul>
+                                <li>tenho que pensar em algumas regras que facam sentido</li>
                                 <li>amet consectetur adipiscing elit duis tristique sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula ipsum a arcu cursus vitae</li>
                                 <li>amet consectetur adipiscing elit duis tristique sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula ipsum a arcu cursus vitae</li>
                                 <li>amet consectetur adipiscing elit duis tristique sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula ipsum a arcu cursus vitae</li>
@@ -131,7 +132,7 @@
 
                             <input type="hidden" name="form_flag" value="not_null">
 
-                            <input type="hidden" name="forum_id" value="${current_forum != null ? current_forum.id : "0"}">
+                            <input type="hidden" name="forum_id" value="${current_forum != null ? current_forum.id : 0}">
 
                             <div class="col pr-2">
                                 <div class="form-group">
