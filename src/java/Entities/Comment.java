@@ -1,63 +1,50 @@
 package Entities;
 
-import Repository.Implementation.PostRepository;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.eclipse.persistence.annotations.CascadeOnDelete;
 import resources.Utils;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "comments")
 @Cacheable(false)
-@CascadeOnDelete
-//@SequenceGenerator(name = "post_id_seq", sequenceName = "posts_id_seq", allocationSize = 1)
-public class Post {
-
-    @OneToMany(mappedBy = "post")
-    private List<Comment> comments;
-
-    @OneToMany(mappedBy = "post")
-    private List<Vote> votes;
-
+public class Comment {
+    
     @Id
-//    @GeneratedValue(generator = "post_id_seq", strategy = GenerationType.SEQUENCE)    
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+        
     @ManyToOne
-    @JoinColumn(name = "created_by", nullable = false)
-    private User createdBy;
-
+    private User user;
+        
     @ManyToOne
-    private Forum forum;
-
-    @Column(name = "title", nullable = false)
-    private String title;
-
-    @OneToOne
-    private PostBody body;
-
+    private Post post;
+    
+    private String body;
+    
+    @ManyToOne
+    private Comment parent;
+//    cascade = CascadeType.ALL
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> children;
+    
     @Column(name = "created_at", insertable = false, updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default now()")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", insertable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE default now()")
     private LocalDateTime updatedAt;
-
+    
     @Transient
     private String duration;
 
@@ -68,18 +55,6 @@ public class Post {
         return aux.substring(0, dotIndex).concat("s");
     }
 
-    public int getVotes() {
-        int value = 0;
-        for(Vote vote : this.votes){
-            value += vote.getVote();
-        }
-        return value;
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
-    }
-
     public int getId() {
         return id;
     }
@@ -88,36 +63,44 @@ public class Post {
         this.id = id;
     }
 
-    public User getCreatedBy() {
-        return createdBy;
+    public User getUser() {
+        return user;
     }
 
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Forum getForum() {
-        return forum;
+    public Post getPost() {
+        return post;
     }
 
-    public void setForum(Forum forum) {
-        this.forum = forum;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public PostBody getBody() {
+    public String getBody() {
         return body;
     }
 
-    public void setBody(PostBody body) {
+    public void setBody(String body) {
         this.body = body;
+    }
+
+    public Comment getParent() {
+        return parent;
+    }
+
+    public void setParent(Comment parent) {
+        this.parent = parent;
+    }
+
+    public List<Comment> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Comment> children) {
+        this.children = children;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -135,5 +118,6 @@ public class Post {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
+    
+    
 }

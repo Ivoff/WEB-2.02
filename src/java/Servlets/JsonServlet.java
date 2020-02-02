@@ -5,9 +5,11 @@
  */
 package Servlets;
 
+import Entities.Comment;
 import Entities.Post;
 import Entities.User;
 import Entities.Vote;
+import Repository.Implementation.CommentRepository;
 import Repository.Implementation.PostRepository;
 import Repository.Implementation.UserRepository;
 import Repository.Implementation.VoteRepository;
@@ -31,39 +33,79 @@ public class JsonServlet extends HttpServlet {
 
     @Inject
     UserRepository userRepo;
-   
+
     @Inject
-    PostRepository postRepo;        
-    
+    PostRepository postRepo;
+
     @Inject
     VoteRepository voteRepo;
-    
+
+    @Inject
+    @Qualifier.CommentRepository
+    CommentRepository commentRepo;
+
+    private void deleteReverseCasade(Comment comment) {
+        commentRepo.delete(comment);
+        System.out.println(comment.getParent().getChildren().size());
+        if (comment.getParent().getChildren().size() == 1 && comment.getParent().getUser() == null) {
+            deleteReverseCasade(comment.getParent());
+        }
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
         PrintWriter out = response.getWriter();
-               
+
         if (request.getParameter("user") != null && request.getParameter("post") == null && request.getParameter("vote") == null) {
             User user = userRepo.read(request.getParameter("user"));
             String result;
-            if(user == null) 
+            if (user == null) {
                 result = new Gson().toJson(user);
-            else
-                result = new Gson().toJson(Utils.jsonSerializer(user));            
-            
+            } else {
+                result = new Gson().toJson(Utils.jsonSerializer(user));
+            }
+
             out.print(result);
             out.flush();
-            
-        }else if(request.getParameter("post") != null && request.getParameter("vote") != null && request.getParameter("user") != null){
+
+        } else if (request.getParameter("post") != null && request.getParameter("vote") != null && request.getParameter("user") != null) {
             Post post = postRepo.read(Integer.valueOf(request.getParameter("post")));
             User user = userRepo.read(request.getParameter("user"));
-            
+
             Vote vote = new Vote();
             vote.setPost(post);
             vote.setUser(user);
             vote.setVote(Integer.valueOf(request.getParameter("vote")));
             voteRepo.vote(vote);
+        } else if (request.getParameter("comment") != null) {
+
+            if (request.getParameter("erase") != null) {
+                Comment comment = commentRepo.read(Integer.valueOf(request.getParameter("comment")));
+                comment.setBody("<p class=\"text-monospace font-weight-bold text-white\">deleted comment</p>");
+                comment.setUser(null);
+                commentRepo.save(comment);
+            } else {
+                Post post = postRepo.read(Integer.valueOf(request.getParameter("post")));
+                User user = userRepo.read(request.getParameter("user"));
+
+                Comment comment = new Comment();
+                comment.setPost(post);
+                comment.setUser(user);
+
+                if (!request.getParameter("parent").equals("")) {
+                    comment.setParent(commentRepo.read(Integer.valueOf(request.getParameter("parent"))));
+                    comment.getParent().getChildren().add(comment);
+
+                } else {
+                    comment.setParent(null);
+                }
+
+                comment.setBody(request.getParameter("comment"));
+//            commentRepo.save(comment.getParent());
+                commentRepo.save(comment);
+            }
         }
     }
 

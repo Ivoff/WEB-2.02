@@ -54,7 +54,7 @@ public class ForumServlet extends HttpServlet {
             User user = new User();
             Forum forum = new Forum();
             if (request.getParameter("mode").equals("create")) {
-                RequestDispatcher view = request.getRequestDispatcher("/views/forum/forumCreate.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/views/forum/create.jsp");
 
                 if (request.getParameter("action") != null) {
                     if (request.getParameter("action").equals("edit")) {
@@ -104,7 +104,7 @@ public class ForumServlet extends HttpServlet {
                 view.forward(request, response);
             }
         } else {
-            RequestDispatcher view = request.getRequestDispatcher("views/forum/forum.jsp");
+            RequestDispatcher view = request.getRequestDispatcher("views/forum/index.jsp");
 
             if (request.getParameter("action") != null) {
                 if (request.getParameter("action").equals("delete")) {

@@ -8,14 +8,14 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 public class EntityManagerProducer {
-    private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("webapp_trabPU");
-    
-    @Produces @RequestScoped
-    public EntityManager createEntityManager(){
-        return factory.createEntityManager();
+
+    @Produces
+    public EntityManagerFactory createEntityManager() {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("webapp_trabPU");
+        return factory;
     }
-    
-    public void closeEntityManager(@Disposes EntityManager manager){
+
+    public void closeEntityManager(@Disposes EntityManagerFactory manager) {
         manager.close();
     }
 }

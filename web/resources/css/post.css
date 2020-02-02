@@ -1,0 +1,57 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jan 29, 2020, 10:04:22 PM
+    Author     : zilas
+*/
+
+.forum-name {
+    font-size: 1.7vh;
+}
+
+li > ul {
+    margin-left: 3em;
+}
+
+.reply-button:hover {
+    cursor: pointer;
+    color: #ccff00 !important;
+    background-color: #003399;
+    border-color: #ffffff;
+}
+
+/*.comment-edit-button {
+    color: #00ccff;
+}*/
+
+.comment-edit-button:hover {
+    cursor: pointer;
+    color: #000000 !important;
+    background-color: #ffcc00;
+    border-color: #ffffff;
+}
+
+/*.comment-delete-button {
+    color: #ff3300;
+}*/
+
+.comment-delete-button:hover {
+    cursor: pointer;
+    color: #ffffff;
+    background-color: #ff3300;    
+}
+
+.deleted-comment {
+    color: #cc0000;
+}
+
+.low-screen-brightness {
+    filter: brightness(30%);
+}
+
+/*ul {
+  list-style-type: none;
+}*/

@@ -28,6 +28,9 @@ import org.mindrot.jbcrypt.BCrypt;
 //@SequenceGenerator(name = "user_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
 public class User {
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments;
+
     @Id
 //    @GeneratedValue(generator = "user_id_seq", strategy = GenerationType.SEQUENCE)    
     @GeneratedValue(strategy = GenerationType.IDENTITY)

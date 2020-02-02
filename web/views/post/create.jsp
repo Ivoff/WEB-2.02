@@ -63,7 +63,7 @@
                                     $('#user_birthday').html(response.birthday.replace('12:00:00 AM', ''));
                                     $('#user_forums').html(response.relations.forums);
                                     $('#user_posts').html(response.relations.posts);
-                                }else{
+                                } else {
                                     if (!$('#profile-container').hasClass('profile-container')) {
                                         $('#profile-container').addClass('profile-container');
                                     }
@@ -87,38 +87,38 @@
                             <h7 class="col mt-1 font-weight-bold text-monospace text-success" id="user_name"></h7>
                         </div>                    
                         <div class="row row-col-2 pt-2 pb-2">
-                                <div class="col-6">
-                                    <h6 class="font-weight-bold text-monospace">Likes Total</h6>
-                                </div>
-                                <div class="col-6">
-                                    <h6 class="font-weight-bold text-monospace"> Birthday</h6>                            
-                                </div>
-                                <div class="col-6">
-                                    todo                                
-                                </div>                            
-                                <div class="col-6 mb-4">
-                                    <img class="" src="resources/images/noun_Birthday_2294371.png" height="15" width="15">
-                                    <small id="user_birthday"></small>
-                                </div>
-                                <div class="col-6">
-                                    <h6 class="font-weight-bold text-monospace">Posts</h6>
-                                </div>
-                                <div class="col-6">
-                                    <h6 class="font-weight-bold text-monospace">Forums</h6>                            
-                                </div>
-                                <div class="col-6" id="user_posts">
-                                    todo
-                                </div>
-                                <div class="col-6 mb-4" id="user_forums">
-                                    todo
-                                </div>
-                                <div class="col-12">
-                                    <h6 class="font-weight-bold text-monospace">Account Time</h6>
-                                </div>
-                                <div class="col-12 mb-2">
-                                    todo
-                                </div>
+                            <div class="col-6">
+                                <h6 class="font-weight-bold text-monospace">Likes Total</h6>
                             </div>
+                            <div class="col-6">
+                                <h6 class="font-weight-bold text-monospace"> Birthday</h6>                            
+                            </div>
+                            <div class="col-6">
+                                todo                                
+                            </div>                            
+                            <div class="col-6 mb-4">
+                                <img class="" src="resources/images/noun_Birthday_2294371.png" height="15" width="15">
+                                <small id="user_birthday"></small>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="font-weight-bold text-monospace">Posts</h6>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="font-weight-bold text-monospace">Forums</h6>                            
+                            </div>
+                            <div class="col-6" id="user_posts">
+                                todo
+                            </div>
+                            <div class="col-6 mb-4" id="user_forums">
+                                todo
+                            </div>
+                            <div class="col-12">
+                                <h6 class="font-weight-bold text-monospace">Account Time</h6>
+                            </div>
+                            <div class="col-12 mb-2">
+                                todo
+                            </div>
+                        </div>
                     </div>                            
                     <div id="trophies" class="custom-border pb-3 pr-3 pl-3 mt-4">
                         <h6 class="text-monospace font-weight-bold pt-3">Rules</h6>
@@ -142,13 +142,15 @@
 
                             <input type="hidden" name="post_id" value="${post != null ? post.id : 0}">
                             <input type="hidden" name="post_body_id" value="${post != null ? post.body.id : 0}">                            
-                            
+
                             <div class="col-8 btn-group btn-group-toggle btn-block" data-toggle="buttons">
                                 <label class="btn btn-outline-secondary text-monospace ${post == null ? "active" : post.body.type == 0 ? "active" : ""} rounded-0">
-                                    <input type="radio" name="post_type" id="post_text_button" value="0" autocomplete="off" ${post.body.type == 0 ? "checked" : "" }> Post
+                                    <input type="radio" name="post_type" id="post_text_button" value="0" autocomplete="off" 
+                                           ${post == null ? "checked" : post.body.type == 0 ? "checked" : "" }> Post
                                 </label>
                                 <label class="btn btn-outline-secondary text-monospace ${post == null ? "" : post.body.type == 1 ? "active" : ""} rounded-0">
-                                    <input type="radio" name="post_type" id="post_image_button" value="1" autocomplete="off" ${post.body.type == 1 ? "checked" : "" }> Image
+                                    <input type="radio" name="post_type" id="post_image_button" value="1" autocomplete="off" 
+                                           ${post == null ? "" : post.body.type == 1 ? "checked" : "" }> Image
                                 </label>                            
                             </div>
 

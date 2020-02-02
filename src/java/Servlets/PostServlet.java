@@ -9,6 +9,7 @@ import Entities.Forum;
 import Entities.Post;
 import Entities.PostBody;
 import Entities.User;
+import Repository.Implementation.CommentRepository;
 import Repository.Implementation.ForumRepository;
 import Repository.Implementation.PostBodyRepository;
 import Repository.Implementation.PostRepository;
@@ -47,10 +48,13 @@ public class PostServlet extends HttpServlet {
 
     @Inject
     PostBodyRepository postBodyRepo;
+    
+    @Inject @Qualifier.CommentRepository
+    CommentRepository commentRepo;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        RequestDispatcher view = request.getRequestDispatcher("/views/post/post.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("/views/post/index.jsp");
 
         User user = new User();
         Forum forum = new Forum();
@@ -66,7 +70,7 @@ public class PostServlet extends HttpServlet {
                         request.setAttribute("post", postRepo.read(Integer.valueOf(request.getParameter("id"))));
                     }
                 }
-                if (request.getParameter("form_flag") != null) {                                        
+                if (request.getParameter("form_flag") != null) {
                     post.setId(Integer.valueOf(request.getParameter("post_id")));
                     post.setTitle(request.getParameter("post_title"));
                     post.setCreatedBy(userRepo.read(request.getParameter("post_creator")));
@@ -75,14 +79,14 @@ public class PostServlet extends HttpServlet {
                     postBody.setId(Integer.valueOf(request.getParameter("post_body_id")));
                     postBody.setType(Integer.valueOf(request.getParameter("post_type")));
 
-                    if (postBody.getType() == 1) {                        
+                    if (postBody.getType() == 1) {
                         if (request.getPart("post_image").getSubmittedFileName().equals("")) {
                             if (Integer.valueOf(request.getParameter("post_id")) != 0) {
                                 postBody.setContent(
                                         postRepo.read(Integer.valueOf(request.getParameter("post_id")))
-                                        .getBody()
-                                        .getContent());
-                            }else{
+                                                .getBody()
+                                                .getContent());
+                            } else {
                                 postBody.setContent("");
                             }
 
@@ -109,9 +113,15 @@ public class PostServlet extends HttpServlet {
                     postBodyRepo.save(postBody);
 
                     post.setBody(postBody);
-                    postRepo.save(post);                    
+                    postRepo.save(post);
                 }
             }
+        } else if (request.getParameter("p") != null) {
+                view = request.getRequestDispatcher("/views/post/post.jsp");
+                
+                request.setAttribute("post", postRepo.read(Integer.valueOf(request.getParameter("p"))));
+                request.setAttribute("comments", commentRepo.all("options"));
+                
         } else {
 
             if (request.getParameter("action") != null && request.getParameter("action").equals("delete")) {
@@ -128,10 +138,11 @@ public class PostServlet extends HttpServlet {
                 }
             } else {
                 request.setAttribute("posts", postRepo.all());
-            }
-            request.setAttribute("posts_recently", postRepo.all("desc", 6));
+            }            
         }
-
+        
+        request.setAttribute("posts_recently", postRepo.all("desc", 6));
+        
         view.forward(request, response);
     }
 
